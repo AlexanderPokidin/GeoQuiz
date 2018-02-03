@@ -29,6 +29,8 @@ public class QuizActivity extends AppCompatActivity {
     };
 
     private int mCurrentIndex = 0;
+    int trueAnswer = 0;
+    int falseAnswer = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(true);
+                enabledButtonFalse();
             }
         });
         mFalseButton = (Button) findViewById(R.id.false_button);
@@ -54,14 +57,20 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkAnswer(false);
+                enabledButtonFalse();
             }
         });
 
         mQuestionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
-                updateQuestion();
+                if (mCurrentIndex == mQuestionBank.length - 1){
+                    result(trueAnswer, falseAnswer);
+                } else {
+                    mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
+                    updateQuestion();
+                    enableButtonTrue();
+                }
             }
         });
 
@@ -80,8 +89,13 @@ public class QuizActivity extends AppCompatActivity {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mCurrentIndex == mQuestionBank.length - 1){
+                    result(trueAnswer, falseAnswer);
+                } else {
                     mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                     updateQuestion();
+                    enableButtonTrue();
+                }
             }
         });
         updateQuestion();
@@ -136,10 +150,28 @@ public class QuizActivity extends AppCompatActivity {
 
         if (userPressedTrue == answerIsTrue){
             messageResId = R.string.correct_toast;
+            trueAnswer++;
         } else {
             messageResId = R.string.incorrect_toast;
+            falseAnswer++;
         }
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
+    }
+
+    private void enabledButtonFalse(){
+        mTrueButton.setEnabled(false);
+        mFalseButton.setEnabled(false);
+    }
+
+    private void enableButtonTrue(){
+        mTrueButton.setEnabled(true);
+        mFalseButton.setEnabled(true);
+    }
+
+    private void result(int trueAnswer, int falseAnswer){
+        int percentResult = trueAnswer * 100 / (trueAnswer + falseAnswer);
+        String result = "You answered " + percentResult + "% the questions correctly";
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
 }
