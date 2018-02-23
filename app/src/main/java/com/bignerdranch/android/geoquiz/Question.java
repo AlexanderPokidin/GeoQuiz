@@ -1,15 +1,12 @@
 package com.bignerdranch.android.geoquiz;
 
-/**
- * Created by unit on 29.01.2018.
- */
 
 public class Question {
 
     private int mTextResId;
     private boolean mAnswerTrue;
 
-    public Question (int textResId, boolean answerTrue){
+    public Question(int textResId, boolean answerTrue) {
         mTextResId = textResId;
         mAnswerTrue = answerTrue;
     }
