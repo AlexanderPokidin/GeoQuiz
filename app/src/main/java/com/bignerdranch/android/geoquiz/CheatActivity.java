@@ -38,6 +38,7 @@ public class CheatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
+
         mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
         mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
@@ -51,8 +52,7 @@ public class CheatActivity extends AppCompatActivity {
                     mAnswerTextView.setText(R.string.false_button);
                 }
                 setAnswerShownResult(true);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     int cx = mShowAnswerButton.getWidth() / 2;
                     int cy = mShowAnswerButton.getHeight() / 2;
                     float radius = mShowAnswerButton.getWidth();
@@ -68,9 +68,10 @@ public class CheatActivity extends AppCompatActivity {
                 } else {
                     mShowAnswerButton.setVisibility(View.INVISIBLE);
                 }
-
             }
         });
+        TextView apiTextView = (TextView) findViewById(R.id.api_version_view);
+        apiTextView.setText(Build.VERSION.SDK);
     }
 
     private void setAnswerShownResult(boolean isAnswerShown) {
